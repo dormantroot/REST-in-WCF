@@ -25,8 +25,7 @@ namespace REST_in_WCF
         {
             var config = new HttpConfiguration() { EnableTestClient = true };
 
-            routes.IgnoreRoute("{resource}.axd/{*pathInfo}");
-            routes.Add(new ServiceRoute("api/contacts", new HttpServiceHostFactory() { Configuration = config }, typeof(ContactsApi)));
+            routes.IgnoreRoute("{resource}.axd/{*pathInfo}");           
             routes.Add(new ServiceRoute("api/order", new HttpServiceHostFactory() { Configuration = config }, typeof(OrderApi)));
 
             routes.MapRoute(

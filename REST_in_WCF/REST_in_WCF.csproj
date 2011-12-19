@@ -101,13 +101,11 @@
     <Reference Include="System.EnterpriseServices" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="APIs\ContactsApi.cs" />
     <Compile Include="APIs\OrderApi.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Resources\Contact.cs" />
     <Compile Include="Resources\Order.cs" />
   </ItemGroup>
   <ItemGroup>
