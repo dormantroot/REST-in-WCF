@@ -14,10 +14,10 @@ namespace REST_in_WCF.APIs
     public class OrderApi
     {
         [WebInvoke(UriTemplate = "", Method = "POST")]
-        public HttpResponseMessage<Order> Post(HttpRequestMessage<Order> request, Order customerOrder)
+        public HttpResponseMessage<Order> PlaceOrder(HttpRequestMessage<Order> request, Order customerOrder)
         {
             HttpResponseMessage<Order> response = null;
-
+            
             try
             {
                 if (!String.IsNullOrEmpty(customerOrder.Status))
@@ -37,7 +37,37 @@ namespace REST_in_WCF.APIs
             {
                 return response = new HttpResponseMessage<Order>(HttpStatusCode.InternalServerError);
             }
+        }
 
+        [WebGet(UriTemplate = "{id}")]
+        public HttpResponseMessage<Order> GetOrderDetails(int id)
+        {
+            HttpResponseMessage<Order> response = null;
+
+            try
+            {
+                // For brevity, I'm assuming that there is only one order in the database - 12345
+                if (id != 12345)
+                {
+                    response = new HttpResponseMessage<Order>(HttpStatusCode.NotFound);
+                }
+                else
+                {
+                    Order existingOrder = new Order();
+                    existingOrder.Location = "takeAway";
+                    existingOrder.Items = new List<Item>();
+                    existingOrder.Items.Add(new Item() { Milk = "whole", Quantity = 1, Name = "lattee", Size = "small" });
+                    existingOrder.Status = "served";
+                    response = new HttpResponseMessage<Order>(existingOrder, HttpStatusCode.OK);
+                }
+
+                return response;
+            }
+            catch (Exception)
+            {
+                return response = new HttpResponseMessage<Order>(HttpStatusCode.InternalServerError);
+            }
         }  
+
     }
 }
