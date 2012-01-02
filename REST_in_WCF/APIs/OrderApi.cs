@@ -112,5 +112,47 @@ namespace REST_in_WCF.APIs
             }
         }
 
+        [WebInvoke(UriTemplate = "{id}", Method = "DELETE")]
+        public HttpResponseMessage<Order> DeleteOrder(int id)
+        {
+            HttpResponseMessage<Order> response = null;
+
+            try
+            {
+                if (id <= 0)
+                {
+                    response = new HttpResponseMessage<Order>(HttpStatusCode.BadRequest);
+                }
+                else
+                {
+                    // For brevity, I'm assuming that order - 123456 was already served and logged. Hence it cannot
+                    // be deleted. Order 12345, however, can be deleted.
+                    // Note: The code doesn't actual delete anything. This is just a demonstration of
+                    // the DELETE verb
+                    if (id == 12345)
+                    {                      
+                        return new HttpResponseMessage<Order>(HttpStatusCode.NoContent);
+                    }
+
+                    if (id == 123456)
+                    {
+                        response = new HttpResponseMessage<Order>(HttpStatusCode.MethodNotAllowed);                        
+                        response.Content.Headers.AddWithoutValidation("Allow", "PUT");
+                        return response;
+                    }
+
+                    // return '404 - Not Found' status code
+                    response = new HttpResponseMessage<Order>(HttpStatusCode.NotFound);
+                   
+                }
+
+                return response;
+            }
+            catch (Exception ex)
+            {
+                return response = new HttpResponseMessage<Order>(HttpStatusCode.InternalServerError);
+            }
+        }
+
     }
 }
